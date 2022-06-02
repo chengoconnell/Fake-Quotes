@@ -28,10 +28,6 @@ public class Question {
     }
 
     public boolean isCorrect() {
-        if (correctAnswer == playerAnswer) {
-            return true;
-        } else {
-            return false;
-        }
+        return playerAnswer == correctAnswer;
     }
 }

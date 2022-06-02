@@ -3,6 +3,10 @@ package com.chengoconnell.unquote;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -12,11 +16,19 @@ public class MainActivity extends AppCompatActivity {
     int totalCorrect;
     int totalQuestions;
     ArrayList<Question> questions = new ArrayList<Question>();
+    ImageView questionImageView;
+    TextView questionTextView;
+    TextView questionRemainingTextView;
+    Button answer0Button;
+    Button answer1Button;
+    Button answer2Button;
+    Button answer3Button;
+    Button submitButton;
 
     public void startNewGame() {
-        Question questionOne = new Question(921238, "How tall is the Eiffel tower?", "1024 ft", "1063 ft", "1124 ft", "1163 ft", 1);
-        Question questionTwo = new Question(107343, "Who invented the computer algorithm?", "Charles Babbage", "John Carmack", "Alan Turing", "Ada Lovelace", 3);
-        Question questionThree = new Question(748294, "What is the name for the patch of skin found on your elbow?", "Elbow Skin", "Fascia Elbora", "Wenis", "Todd", 2);
+        Question questionOne = new Question(R.drawable.img_quote_0, "Pretty good advice, and perhaps a scientist did say it... Who actually did?", "Albert Einstein", "Isaac Newton", "Rita Mae Brown", "Rosalind Franklin", 2);
+        Question questionTwo = new Question(R.drawable.img_quote_1, "Was honest Abe honestly quoted? Who authored this pithy bit of wisdom?", "Edward Stieglitz", "Maya Angelou", "Abraham Lincoln", "Ralph Waldo Emerson", 0);
+        Question questionThree = new Question(R.drawable.img_quote_2, "Easy advice to read, difficult advice to follow — who actually said it?", "Martin Luther King Jr.", "Mother Teresa", "Fred Rogers", "Oprah Winfrey", 1);
 
         questions.add(questionOne);
         questions.add(questionTwo);
@@ -26,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
         totalQuestions = questions.size();
 
         Question firstQuestion = chooseNewQuestion();
-        // displayQuestion(firstQuestion);
-        // displayQuestionsRemaining(questions.size());
+        displayQuestion(firstQuestion);
+        displayQuestionsRemaining(questions.size());
     }
 
     public Question chooseNewQuestion() {
-        int randomNumber = generateRandomNumber(totalQuestions);
-        currentQuestionIndex = randomNumber;
+        int newQuestionIndex = generateRandomNumber(questions.size());
+        currentQuestionIndex = newQuestionIndex;
         return questions.get(currentQuestionIndex);
     }
 
@@ -47,14 +59,14 @@ public class MainActivity extends AppCompatActivity {
         }
         questions.remove(currentQuestion);
 
-        // displayQuestionsRemaining(questions.size());
+        displayQuestionsRemaining(questions.size());
         if (questions.size() == 0) {
-            getGameOverMessage(totalCorrect, totalQuestions);
+            String gameOverMessage = getGameOverMessage(totalCorrect, totalQuestions);
+            System.out.println(gameOverMessage);
             startNewGame();
         } else {
             chooseNewQuestion();
-            // TODO: uncomment after implementing displayQuestion()
-            // displayQuestion(getCurrentQuestion());
+            displayQuestion(getCurrentQuestion());
         }
     }
 
@@ -75,9 +87,37 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void displayQuestionsRemaining(int questionRemaining) {
+        questionRemainingTextView.setText(questionRemaining + "");
+    }
+
+    public void displayQuestion(Question currentQuestion) {
+        questionImageView.setImageResource(currentQuestion.imageId);
+        questionTextView.setText(currentQuestion.questionText);
+        answer0Button.setText(currentQuestion.answer0);
+        answer1Button.setText(currentQuestion.answer1);
+        answer2Button.setText(currentQuestion.answer2);
+        answer3Button.setText(currentQuestion.answer3);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_unquote_icon);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setElevation(0);
         setContentView(R.layout.activity_main);
+
+        questionImageView = findViewById(R.id.iv_main_question_image);
+        questionTextView = findViewById(R.id.tv_main_question_title);
+        questionRemainingTextView = findViewById(R.id.tv_main_questions_remaining_count);
+        answer0Button = findViewById(R.id.btn_main_answer_0);
+        answer1Button = findViewById(R.id.btn_main_answer_1);
+        answer2Button = findViewById(R.id.btn_main_answer_2);
+        answer3Button = findViewById(R.id.btn_main_answer_3);
+        submitButton = findViewById(R.id.btn_main_submit_answer);
+
+        startNewGame();
     }
 }
