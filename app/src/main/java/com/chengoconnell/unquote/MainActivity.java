@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.nio.channels.Channels;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -100,6 +101,24 @@ public class MainActivity extends AppCompatActivity {
         answer3Button.setText(currentQuestion.answer3);
     }
 
+    public void onAnswerSelected(int answerSelection) {
+        Question currentQuestion = getCurrentQuestion();
+        currentQuestion.playerAnswer = answerSelection;
+        answer0Button.setText(currentQuestion.answer0);
+        answer1Button.setText(currentQuestion.answer1);
+        answer2Button.setText(currentQuestion.answer2);
+        answer3Button.setText(currentQuestion.answer3);
+
+        if (answerSelection == 0) {
+            answer0Button.setText("✔ " + currentQuestion.answer0);
+        } else if (answerSelection == 1) {
+            answer1Button.setText("✔ " + currentQuestion.answer1);
+        } else if (answerSelection == 2) {
+            answer2Button.setText("✔ " + currentQuestion.answer2);
+        } else {
+            answer3Button.setText("✔ " + currentQuestion.answer3);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +136,31 @@ public class MainActivity extends AppCompatActivity {
         answer2Button = findViewById(R.id.btn_main_answer_2);
         answer3Button = findViewById(R.id.btn_main_answer_3);
         submitButton = findViewById(R.id.btn_main_submit_answer);
+
+        answer0Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAnswerSelected(0);
+            }
+        });
+        answer1Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAnswerSelected(1);
+            }
+        });
+        answer2Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAnswerSelected(2);
+            }
+        });
+        answer3Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAnswerSelected(3);
+            }
+        });
 
         startNewGame();
     }
