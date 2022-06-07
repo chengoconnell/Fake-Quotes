@@ -2,6 +2,8 @@ package com.chengoconnell.unquote;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -63,8 +65,17 @@ public class MainActivity extends AppCompatActivity {
         displayQuestionsRemaining(questions.size());
         if (questions.size() == 0) {
             String gameOverMessage = getGameOverMessage(totalCorrect, totalQuestions);
-            System.out.println(gameOverMessage);
-            startNewGame();
+//            System.out.println(gameOverMessage);
+            AlertDialog.Builder gameOverDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+            gameOverDialogBuilder.setCancelable(false);
+            gameOverDialogBuilder.setTitle(gameOverMessage);
+            gameOverDialogBuilder.setPositiveButton("Play Again!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startNewGame();
+                }
+            });
+            gameOverDialogBuilder.create().show();
         } else {
             chooseNewQuestion();
             displayQuestion(getCurrentQuestion());
@@ -159,6 +170,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onAnswerSelected(3);
+            }
+        });
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAnswerSubmission();
             }
         });
 
