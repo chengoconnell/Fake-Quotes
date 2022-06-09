@@ -1,5 +1,5 @@
 # FakeQuotes
-An Android party game in which the player is presented with fake quotes and is tasked with identifying the true author of the quote.
+An Android game where the player is presented with fake quotes and is tasked with identifying the true author of the quote. Produced high-fidelity wireframes through Figma before developing the Android mobile application.
 
 ## Getting Started
 1. Clone the repo: `git clone https://github.com/chengoconnell/FakeQuotes.git`
