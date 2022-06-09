@@ -57,6 +57,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void onAnswerSubmission() {
         Question currentQuestion = getCurrentQuestion();
+        if (currentQuestion.playerAnswer == -1) {
+            AlertDialog.Builder pleaseSelectDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+            pleaseSelectDialogBuilder.setCancelable(false);
+            pleaseSelectDialogBuilder.setTitle("Please select an answer before submitting.");
+            pleaseSelectDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            pleaseSelectDialogBuilder.create().show();
+            return;
+        }
         if (currentQuestion.isCorrect()) {
             totalCorrect ++;
         }
